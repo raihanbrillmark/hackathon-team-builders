@@ -1198,7 +1198,7 @@
             <span class="sb-stack-chip">Tailwind</span>
             <span class="sb-stack-chip">shadcn/ui</span>
             <span class="sb-stack-chip">PostgreSQL</span>
-            <span class="sb-stack-chip">Drizzle</span>
+            <span class="sb-stack-chip">Prisma</span>
             <span class="sb-stack-chip">better-auth</span>
           </div>
         </div>
@@ -1229,7 +1229,7 @@
           <div class="page-desc">
             A comprehensive product & engineering specification for Trackly — a
             time tracking SaaS for freelancers and teams. Built on Next.js 15,
-            TypeScript, Tailwind CSS, shadcn/ui, PostgreSQL, Drizzle ORM, and
+            TypeScript, Tailwind CSS, shadcn/ui, PostgreSQL, Prisma ORM, and
             better-auth.
           </div>
           <div class="page-tags">
@@ -1954,7 +1954,7 @@
               <tr>
                 <td>DB schema & migrations</td>
                 <td>
-                  Drizzle ORM schema: users, workspaces, projects, time_entries
+                  Prisma ORM schema: users, workspaces, projects, time_entries
                 </td>
                 <td><span class="tag tag-red">P0</span></td>
                 <td>1 day</td>
@@ -2292,7 +2292,7 @@
             <div class="callout-content">
               <div class="callout-title">Stack philosophy</div>
               Chosen for DX speed and type-safety end-to-end. TypeScript
-              everywhere — from DB schema (Drizzle) to API route to UI
+              everywhere — from DB schema (Prisma) to API route to UI
               component. shadcn/ui gives production-quality components with zero
               style lock-in. better-auth replaces NextAuth with a cleaner API
               and built-in session management.
@@ -2376,7 +2376,7 @@
                   >
                 </div>
                 <div class="stack-item">
-                  <span class="stack-item-name">Drizzle ORM</span
+                  <span class="stack-item-name">Prisma ORM</span
                   ><span class="stack-item-desc"
                     >Type-safe SQL, schema-first migrations, Neon adapter</span
                   >
@@ -2517,9 +2517,9 @@
             <span class="comment"># Sidebar, TopNav, UserMenu</span> ├──
             <span class="dir">lib/</span> │ ├── auth.ts
             <span class="comment"># better-auth config</span> │ ├── db.ts
-            <span class="comment"># Drizzle client</span> │ ├──
+            <span class="comment"># Prisma client</span> │ ├──
             <span class="dir">schema/</span>
-            <span class="comment"># Drizzle schema files</span> │ ├──
+            <span class="comment"># Prisma schema files</span> │ ├──
             <span class="dir">actions/</span>
             <span class="comment"># Server Actions</span> │ ├──
             <span class="dir">validations/</span>
@@ -2532,7 +2532,7 @@
             <span class="comment"># Global TypeScript types</span> ├──
             <span class="dir">emails/</span>
             <span class="comment"># react-email templates</span> ├──
-            drizzle.config.ts └── middleware.ts
+            Prisma.config.ts └── middleware.ts
             <span class="comment"># Auth middleware / route protection</span>
           </div>
 
@@ -2556,7 +2556,7 @@
             <div class="flow-arrow">→</div>
             <div class="flow-step" style="min-width: 150px">
               <div class="flow-step-num">ORM</div>
-              <div class="flow-step-title">Drizzle Query</div>
+              <div class="flow-step-title">Prisma Query</div>
               <div class="flow-step-desc">Typed SQL. No raw queries.</div>
             </div>
             <div class="flow-arrow">→</div>
@@ -2592,7 +2592,7 @@
           <div class="section-eyebrow">Document 07</div>
           <div class="section-title">Database Schema</div>
           <div class="section-sub">
-            Drizzle ORM schema for Trackly MVP. All tables use UUID primary
+            Prisma ORM schema for Trackly MVP. All tables use UUID primary
             keys.
           </div>
 
@@ -3057,7 +3057,7 @@
             <div class="callout-icon">🔐</div>
             <div class="callout-content">
               <div class="callout-title">Why better-auth over NextAuth?</div>
-              better-auth provides a cleaner TypeScript API, first-class Drizzle
+              better-auth provides a cleaner TypeScript API, first-class Prisma
               adapter, built-in session management with rotation, and no adapter
               inconsistencies. Config lives in <code>lib/auth.ts</code> and is
               shared between server and client.
@@ -3069,7 +3069,7 @@
             <div class="prop-row">
               <div class="prop-key">📦 Package</div>
               <div class="prop-val">
-                <code>better-auth</code> with Drizzle adapter
+                <code>better-auth</code> with Prisma adapter
               </div>
             </div>
             <div class="prop-row">
@@ -3307,7 +3307,7 @@
                 <span class="tag tag-red" style="flex-shrink: 0">P0</span>
                 <div>
                   <div class="sprint-item-text">
-                    Neon PostgreSQL + Drizzle ORM setup — schema migration for
+                    Neon PostgreSQL + Prisma ORM setup — schema migration for
                     all core tables
                   </div>
                   <div class="sprint-item-sub">Day 1–2 · ~4h</div>
@@ -3481,7 +3481,7 @@
                 <div>
                   <div class="sprint-item-text">
                     Reports API — aggregate query by date range, project, member
-                    in Drizzle
+                    in Prisma
                   </div>
                   <div class="sprint-item-sub">Day 16–17 · ~4h</div>
                 </div>
@@ -3719,12 +3719,12 @@
                 </td>
               </tr>
               <tr class="risk-row-mid">
-                <td>Drizzle migration conflicts</td>
+                <td>Prisma migration conflicts</td>
                 <td><span class="tag tag-amber">Medium</span></td>
                 <td><span class="tag tag-green">Low</span></td>
                 <td>
                   Use Neon branching for dev. Never run migrations manually —
-                  always drizzle-kit.
+                  always Prisma-kit.
                 </td>
               </tr>
               <tr class="risk-row-low">
