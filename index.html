@@ -2041,7 +2041,7 @@
               </tr>
               <tr>
                 <td>Deployment & CI</td>
-                <td>Vercel deploy, GitHub Actions, env config, Neon DB</td>
+                <td>AWS or Vercel deploy, GitHub Actions, env config, PostgreSQL DB</td>
                 <td><span class="tag tag-green">P2</span></td>
                 <td>1 day</td>
                 <td>DevOps</td>
@@ -2378,13 +2378,13 @@
                 <div class="stack-item">
                   <span class="stack-item-name">Prisma ORM</span
                   ><span class="stack-item-desc"
-                    >Type-safe SQL, schema-first migrations, Neon adapter</span
+                    >Type-safe SQL, schema-first migrations, PostgreSQL adapter</span
                   >
                 </div>
                 <div class="stack-item">
                   <span class="stack-item-name">PostgreSQL</span
                   ><span class="stack-item-desc"
-                    >Primary database — hosted on Neon (serverless)</span
+                    >Primary database — hosted on PostgreSQL (serverless)</span
                   >
                 </div>
                 <div class="stack-item">
@@ -2411,7 +2411,7 @@
                   >
                 </div>
                 <div class="stack-item">
-                  <span class="stack-item-name">Neon</span
+                  <span class="stack-item-name">PostgreSQL</span
                   ><span class="stack-item-desc"
                     >Serverless PostgreSQL — branching + autoscale</span
                   >
@@ -2446,7 +2446,7 @@
                   >
                 </div>
                 <div class="stack-item">
-                  <span class="stack-item-name">ESLint</span
+                  <span class="stack-item-name">Biome</span
                   ><span class="stack-item-desc"
                     >Next.js + TypeScript rules, strict config</span
                   >
@@ -2562,7 +2562,7 @@
             <div class="flow-arrow">→</div>
             <div class="flow-step" style="min-width: 150px">
               <div class="flow-step-num">DATABASE</div>
-              <div class="flow-step-title">Neon PostgreSQL</div>
+              <div class="flow-step-title">PostgreSQL PostgreSQL</div>
               <div class="flow-step-desc">
                 Serverless. HTTP pooling. Branching for dev.
               </div>
@@ -2599,7 +2599,7 @@
           <div class="callout blue">
             <div class="callout-icon">🗄</div>
             <div class="callout-content">
-              <div class="callout-title">ORM: Prisma + Neon PostgreSQL</div>
+              <div class="callout-title">ORM: Prisma + PostgreSQL PostgreSQL</div>
               Schema is defined in <code>lib/schema/</code>. Migrations
               generated with <code>prisma generate</code> and run with
               <code>prisma migrate</code>. Types are inferred — no manual
@@ -3307,7 +3307,7 @@
                 <span class="tag tag-red" style="flex-shrink: 0">P0</span>
                 <div>
                   <div class="sprint-item-text">
-                    Neon PostgreSQL + Prisma ORM setup — schema migration for
+                    PostgreSQL PostgreSQL + Prisma ORM setup — schema migration for
                     all core tables
                   </div>
                   <div class="sprint-item-sub">Day 1–2 · ~4h</div>
@@ -3632,7 +3632,7 @@
                 <span class="tag tag-blue" style="flex-shrink: 0">🚀</span>
                 <div>
                   <div class="sprint-item-text">
-                    Production deployment to Vercel + Neon prod DB · Seed demo
+                    Production deployment to Vercel + PostgreSQL prod DB · Seed demo
                     workspace
                   </div>
                   <div class="sprint-item-sub">Day 29 · ~2h</div>
@@ -3701,11 +3701,11 @@
                 </td>
               </tr>
               <tr class="risk-row-low">
-                <td>Neon cold start latency</td>
+                <td>PostgreSQL cold start latency</td>
                 <td><span class="tag tag-green">Low</span></td>
                 <td><span class="tag tag-amber">Medium</span></td>
                 <td>
-                  Use HTTP connection pooling (neon/serverless). Warm-up route
+                  Use HTTP connection pooling (PostgreSQL/serverless). Warm-up route
                   on /api/healthz.
                 </td>
               </tr>
@@ -3723,7 +3723,7 @@
                 <td><span class="tag tag-amber">Medium</span></td>
                 <td><span class="tag tag-green">Low</span></td>
                 <td>
-                  Use Neon branching for dev. Never run migrations manually —
+                  Use PostgreSQL branching for dev. Never run migrations manually —
                   always Prisma-kit.
                 </td>
               </tr>
