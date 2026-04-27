@@ -164,11 +164,11 @@ function TopBar({ current, setCollapsed, collapsed, role, setRole, onOpenTweaks,
       <button className="btn-ghost" onClick={()=>setCollapsed(c=>!c)} style={{ width:28, height:28, borderRadius:6, display:'flex', alignItems:'center', justifyContent:'center' }}>
         <I.Sidebar size={15}/>
       </button>
-      <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:12, color:'var(--fg-muted)', minWidth:0, flex:'1 1 auto', overflow:'hidden' }}>
+      <div style={{ display:'flex', alignItems:'center', gap:6, fontSize:12, color:'var(--fg-muted)' }}>
         {breadcrumbs.map((b, i) => (
           <React.Fragment key={i}>
-            <span style={{ color: i === breadcrumbs.length-1 ? 'var(--fg)' : 'var(--fg-muted)', fontWeight: i === breadcrumbs.length-1 ? 500 : 400, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth: i === breadcrumbs.length-1 ? 320 : 200 }}>{b}</span>
-            {i < breadcrumbs.length-1 && <I.Chevron size={10} style={{ flex:'none' }}/>}
+            <span style={{ color: i === breadcrumbs.length-1 ? 'var(--fg)' : 'var(--fg-muted)', fontWeight: i === breadcrumbs.length-1 ? 500 : 400 }}>{b}</span>
+            {i < breadcrumbs.length-1 && <I.Chevron size={10}/>}
           </React.Fragment>
         ))}
       </div>

@@ -1,0 +1,3887 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trackly — MVP Product Docs v2</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #ffffff;
+        --bg2: #f7f6f3;
+        --bg3: #efefec;
+        --text1: #1a1a1a;
+        --text2: #5a5a5a;
+        --text3: #9b9b9b;
+        --border: #e5e4e0;
+        --brand: #0f6fff;
+        --brand-bg: #eef3ff;
+        --brand-text: #1046c0;
+        --green: #0b9e65;
+        --green-bg: #e6f9f1;
+        --green-text: #097a4f;
+        --amber: #c07a12;
+        --amber-bg: #fef3dc;
+        --amber-text: #9a5c08;
+        --red: #d03535;
+        --red-bg: #fdecec;
+        --red-text: #a82020;
+        --purple: #7b6ee8;
+        --purple-bg: #eeedfe;
+        --purple-text: #504499;
+        --teal: #0a9ea8;
+        --teal-bg: #e6f7f8;
+        --teal-text: #087880;
+        --orange: #d05a10;
+        --orange-bg: #fef0e6;
+        --orange-text: #a84210;
+        --radius: 6px;
+        --font: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+        --mono: "Geist Mono", "Fira Code", monospace;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--bg2);
+        color: var(--text1);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      /* Layout */
+      .page-wrap {
+        display: flex;
+        min-height: 100vh;
+      }
+      .sidebar {
+        width: 252px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .main {
+        flex: 1;
+        padding: 52px 88px 80px;
+        max-width: 960px;
+      }
+
+      /* Sidebar */
+      .sb-logo {
+        padding: 0 16px 20px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sb-logo-icon {
+        font-size: 20px;
+      }
+      .sb-logo-info {
+      }
+      .sb-logo-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text1);
+      }
+      .sb-logo-tag {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 1px;
+      }
+      .sb-section {
+        padding: 4px 0 10px;
+      }
+      .sb-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text3);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        padding: 4px 16px 6px;
+      }
+      .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 16px;
+        font-size: 12.5px;
+        color: var(--text2);
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.1s;
+      }
+      .sb-item:hover {
+        background: var(--bg3);
+        color: var(--text1);
+      }
+      .sb-item.active {
+        color: var(--brand);
+        background: var(--brand-bg);
+        font-weight: 500;
+      }
+      .sb-item-icon {
+        font-size: 13px;
+        width: 16px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .sb-sub {
+        padding: 2px 16px 2px 40px;
+        font-size: 11.5px;
+        color: var(--text3);
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+      }
+      .sb-sub:hover {
+        color: var(--text2);
+      }
+      .sb-meta {
+        padding: 14px 16px;
+        border-top: 1px solid var(--border);
+        margin-top: 8px;
+      }
+      .sb-meta-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text3);
+        margin-bottom: 5px;
+      }
+      .sb-meta-row span:last-child {
+        color: var(--text2);
+        font-weight: 500;
+      }
+      .sb-stack {
+        padding: 0 16px 12px;
+      }
+      .sb-stack-label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text3);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .sb-stack-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .sb-stack-chip {
+        font-size: 10px;
+        font-family: var(--mono);
+        background: var(--bg3);
+        color: var(--text2);
+        padding: 2px 6px;
+        border-radius: 3px;
+        border: 1px solid var(--border);
+      }
+
+      /* Doc sections */
+      .doc-section {
+        margin-bottom: 72px;
+      }
+      .section-eyebrow {
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text3);
+        margin-bottom: 6px;
+      }
+      .section-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--text1);
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
+      }
+      .section-sub {
+        font-size: 14px;
+        color: var(--text2);
+        margin-bottom: 28px;
+        line-height: 1.5;
+      }
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 52px 0;
+      }
+
+      /* Callout blocks */
+      .callout {
+        border-radius: var(--radius);
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        border: 1px solid transparent;
+      }
+      .callout-icon {
+        font-size: 15px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .callout-content {
+        font-size: 13px;
+        line-height: 1.65;
+      }
+      .callout-title {
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+      .callout.blue {
+        background: var(--brand-bg);
+        border-color: #c5d8ff;
+      }
+      .callout.blue .callout-title,
+      .callout.blue .callout-content {
+        color: var(--brand-text);
+      }
+      .callout.green {
+        background: var(--green-bg);
+        border-color: #b4eed8;
+      }
+      .callout.green .callout-title,
+      .callout.green .callout-content {
+        color: var(--green-text);
+      }
+      .callout.amber {
+        background: var(--amber-bg);
+        border-color: #f8d8a0;
+      }
+      .callout.amber .callout-title,
+      .callout.amber .callout-content {
+        color: var(--amber-text);
+      }
+      .callout.purple {
+        background: var(--purple-bg);
+        border-color: #ccc9f8;
+      }
+      .callout.purple .callout-title,
+      .callout.purple .callout-content {
+        color: var(--purple-text);
+      }
+      .callout.red {
+        background: var(--red-bg);
+        border-color: #f5c0c0;
+      }
+      .callout.red .callout-title,
+      .callout.red .callout-content {
+        color: var(--red-text);
+      }
+      .callout.teal {
+        background: var(--teal-bg);
+        border-color: #a6e2e6;
+      }
+      .callout.teal .callout-title,
+      .callout.teal .callout-content {
+        color: var(--teal-text);
+      }
+
+      /* Property rows */
+      .prop-grid {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      .prop-row {
+        display: contents;
+      }
+      .prop-row:not(:last-child) .prop-key,
+      .prop-row:not(:last-child) .prop-val {
+        border-bottom: 1px solid var(--border);
+      }
+      .prop-key {
+        background: var(--bg2);
+        padding: 9px 14px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .prop-val {
+        background: var(--bg);
+        padding: 9px 14px;
+        font-size: 13px;
+        color: var(--text1);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      /* Tags */
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 500;
+      }
+      .tag-blue {
+        background: var(--brand-bg);
+        color: var(--brand-text);
+      }
+      .tag-green {
+        background: var(--green-bg);
+        color: var(--green-text);
+      }
+      .tag-amber {
+        background: var(--amber-bg);
+        color: var(--amber-text);
+      }
+      .tag-red {
+        background: var(--red-bg);
+        color: var(--red-text);
+      }
+      .tag-purple {
+        background: var(--purple-bg);
+        color: var(--purple-text);
+      }
+      .tag-gray {
+        background: var(--bg3);
+        color: var(--text2);
+      }
+      .tag-teal {
+        background: var(--teal-bg);
+        color: var(--teal-text);
+      }
+      .tag-orange {
+        background: var(--orange-bg);
+        color: var(--orange-text);
+      }
+      .tag-mono {
+        font-family: var(--mono);
+        font-size: 10.5px;
+      }
+
+      /* Headings */
+      .h2 {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text1);
+        margin: 32px 0 12px;
+        letter-spacing: -0.3px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+      }
+      .h3 {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text1);
+        margin: 22px 0 10px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .h3::before {
+        content: "";
+        width: 3px;
+        height: 14px;
+        background: var(--brand);
+        border-radius: 2px;
+        display: inline-block;
+      }
+      .body-text {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.75;
+        margin-bottom: 12px;
+      }
+
+      /* Toggle */
+      .toggle {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        overflow: hidden;
+      }
+      .toggle-head {
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg);
+        user-select: none;
+      }
+      .toggle-head:hover {
+        background: var(--bg2);
+      }
+      .toggle-arrow {
+        font-size: 10px;
+        color: var(--text3);
+        transition: transform 0.18s;
+      }
+      .toggle-body {
+        padding: 12px 16px;
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.75;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+        display: none;
+      }
+      .toggle-body ul {
+        padding-left: 18px;
+        margin-top: 4px;
+      }
+      .toggle-body ul li {
+        margin-bottom: 4px;
+      }
+      .toggle-body code {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        background: var(--bg2);
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+      .toggle.open .toggle-body {
+        display: block;
+      }
+      .toggle.open .toggle-arrow {
+        transform: rotate(90deg);
+      }
+
+      /* Cards grid */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .card-label {
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+      }
+      .card-value {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text1);
+        margin-bottom: 4px;
+        letter-spacing: -0.3px;
+      }
+      .card-desc {
+        font-size: 11.5px;
+        color: var(--text2);
+      }
+
+      /* User story */
+      .story-card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin-bottom: 10px;
+      }
+      .story-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .story-id {
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text3);
+        font-family: var(--mono);
+      }
+      .story-title {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text1);
+        margin-bottom: 5px;
+      }
+      .story-desc {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.65;
+        margin-bottom: 10px;
+        font-style: italic;
+      }
+      .story-ac {
+        font-size: 12px;
+        color: var(--text2);
+      }
+      .story-ac li {
+        margin-bottom: 4px;
+        list-style: none;
+        padding-left: 16px;
+        position: relative;
+      }
+      .story-ac li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-weight: 700;
+      }
+
+      /* Tables */
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-bottom: 20px;
+        font-size: 13px;
+      }
+      .table th {
+        background: var(--bg2);
+        padding: 8px 12px;
+        text-align: left;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        border-bottom: 1px solid var(--border);
+      }
+      .table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text1);
+        vertical-align: middle;
+        line-height: 1.5;
+      }
+      .table tr:last-child td {
+        border-bottom: none;
+      }
+      .table tr:hover td {
+        background: var(--bg2);
+      }
+      .table td code {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        background: var(--bg2);
+        padding: 1px 5px;
+        border-radius: 3px;
+        color: var(--text2);
+      }
+
+      /* Timeline / sprint table */
+      .sprint-block {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+      .sprint-header {
+        background: var(--bg2);
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+      }
+      .sprint-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text1);
+      }
+      .sprint-dates {
+        font-size: 11px;
+        font-family: var(--mono);
+        color: var(--text3);
+      }
+      .sprint-goal {
+        font-size: 12px;
+        color: var(--text2);
+        padding: 8px 14px 4px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sprint-items {
+        padding: 4px 0;
+      }
+      .sprint-item {
+        padding: 7px 14px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 12.5px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sprint-item:last-child {
+        border-bottom: none;
+      }
+      .sprint-item-text {
+        flex: 1;
+        color: var(--text1);
+      }
+      .sprint-item-sub {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 2px;
+        font-family: var(--mono);
+      }
+
+      /* Lean Canvas */
+      .canvas-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      .canvas-cell {
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 14px;
+        background: var(--bg);
+      }
+      .canvas-cell:nth-child(5n) {
+        border-right: none;
+      }
+      .canvas-cell.span2 {
+        grid-column: span 2;
+      }
+      .canvas-cell.span3 {
+        grid-column: span 3;
+      }
+      .canvas-cell.full {
+        grid-column: span 5;
+      }
+      .canvas-cell.no-bottom {
+        border-bottom: none;
+      }
+      .canvas-cell-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 7px;
+      }
+      .canvas-cell-content {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+      .canvas-cell-content li {
+        list-style: none;
+        padding-left: 12px;
+        position: relative;
+        margin-bottom: 3px;
+      }
+      .canvas-cell-content li::before {
+        content: "–";
+        position: absolute;
+        left: 0;
+        color: var(--text3);
+      }
+
+      /* Flow */
+      .flow {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .flow-step {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px 16px;
+        min-width: 130px;
+        flex-shrink: 0;
+      }
+      .flow-step-num {
+        font-size: 9.5px;
+        font-weight: 700;
+        color: var(--text3);
+        margin-bottom: 4px;
+        font-family: var(--mono);
+        letter-spacing: 0.05em;
+      }
+      .flow-step-title {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text1);
+        margin-bottom: 3px;
+      }
+      .flow-step-desc {
+        font-size: 11px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .flow-arrow {
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        color: var(--text3);
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      /* Priority matrix */
+      .matrix {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .matrix-cell {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        background: var(--bg);
+      }
+      .matrix-cell-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 9px;
+      }
+      .matrix-cell ul {
+        font-size: 12px;
+        color: var(--text2);
+        padding-left: 16px;
+      }
+      .matrix-cell ul li {
+        margin-bottom: 4px;
+      }
+
+      /* Tech stack section */
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .stack-card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+      }
+      .stack-card-cat {
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        margin-bottom: 8px;
+      }
+      .stack-card-items {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .stack-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .stack-item-name {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text1);
+        font-family: var(--mono);
+        min-width: 120px;
+      }
+      .stack-item-desc {
+        font-size: 11.5px;
+        color: var(--text2);
+      }
+
+      /* DB schema */
+      .schema-table {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+      .schema-table-name {
+        background: var(--bg2);
+        padding: 8px 14px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--text1);
+        font-family: var(--mono);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .schema-table-name .schema-tag {
+        font-size: 10px;
+        font-family: var(--font);
+      }
+      .schema-fields {
+        padding: 4px 0;
+      }
+      .schema-field {
+        padding: 5px 14px;
+        display: grid;
+        grid-template-columns: 160px 90px 1fr;
+        gap: 8px;
+        font-size: 12px;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+      }
+      .schema-field:last-child {
+        border-bottom: none;
+      }
+      .schema-field-name {
+        font-family: var(--mono);
+        color: var(--text1);
+        font-weight: 500;
+      }
+      .schema-field-type {
+        font-family: var(--mono);
+        color: var(--purple-text);
+        font-size: 11px;
+      }
+      .schema-field-note {
+        color: var(--text3);
+        font-size: 11px;
+      }
+      .pk {
+        color: var(--amber);
+      }
+      .fk {
+        color: var(--brand);
+      }
+
+      /* Page header */
+      .page-header {
+        margin-bottom: 40px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--border);
+      }
+      .page-emoji {
+        font-size: 38px;
+        margin-bottom: 12px;
+        display: block;
+      }
+      .page-title {
+        font-size: 30px;
+        font-weight: 800;
+        color: var(--text1);
+        letter-spacing: -0.8px;
+        margin-bottom: 6px;
+      }
+      .page-desc {
+        font-size: 14.5px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .page-tags {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+
+      /* API route block */
+      .api-block {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 8px;
+        overflow: hidden;
+      }
+      .api-route {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .api-method {
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 3px;
+        min-width: 46px;
+        text-align: center;
+      }
+      .get {
+        background: #e6f9f1;
+        color: #097a4f;
+      }
+      .post {
+        background: var(--brand-bg);
+        color: var(--brand-text);
+      }
+      .patch {
+        background: var(--amber-bg);
+        color: var(--amber-text);
+      }
+      .delete {
+        background: var(--red-bg);
+        color: var(--red-text);
+      }
+      .api-path {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--text1);
+      }
+      .api-desc {
+        font-size: 11.5px;
+        color: var(--text3);
+        margin-left: auto;
+      }
+      .api-auth {
+        font-size: 10.5px;
+        color: var(--text3);
+        padding: 6px 14px;
+      }
+
+      /* Folder structure */
+      .folder {
+        font-family: var(--mono);
+        font-size: 12px;
+        line-height: 1.9;
+        color: var(--text2);
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px 18px;
+        margin-bottom: 16px;
+      }
+      .folder .dir {
+        color: var(--brand);
+        font-weight: 600;
+      }
+      .folder .file {
+        color: var(--text2);
+      }
+      .folder .comment {
+        color: var(--text3);
+      }
+
+      /* Component checklist */
+      .check-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .check-block {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px 14px;
+      }
+      .check-block-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text1);
+        margin-bottom: 8px;
+      }
+      .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 7px;
+        font-size: 12px;
+        color: var(--text2);
+        margin-bottom: 5px;
+      }
+      .check-item .ci {
+        width: 14px;
+        height: 14px;
+        border: 1.5px solid var(--border);
+        border-radius: 3px;
+        flex-shrink: 0;
+        margin-top: 1px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+      }
+      .check-item.done .ci {
+        background: var(--green);
+        border-color: var(--green);
+        color: white;
+      }
+
+      /* Risk table */
+      .risk-row-low td {
+        background: #f5fef9;
+      }
+      .risk-row-mid td {
+        background: #fffbf0;
+      }
+      .risk-row-high td {
+        background: #fdf4f4;
+      }
+
+      @media (max-width: 860px) {
+        .main {
+          padding: 24px 20px;
+        }
+        .sidebar {
+          display: none;
+        }
+        .canvas-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .canvas-cell.span2,
+        .canvas-cell.span3,
+        .canvas-cell.full {
+          grid-column: span 2;
+        }
+        .check-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Contributors / Team Overview */
+      .contributors {
+        margin-top: 24px;
+        margin-bottom: 30px;
+        padding: 24px 28px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+      .contributors-title {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--text3);
+        margin-bottom: 16px;
+      }
+      .contributors-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .contributor {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .contributor-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .contributor-info {
+        display: flex;
+        flex-direction: column;
+      }
+      .contributor-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text1);
+        line-height: 1.3;
+      }
+      .contributor-role {
+        font-size: 11px;
+        color: var(--text3);
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sb-logo">
+          <div class="sb-logo-icon">⏱</div>
+          <div class="sb-logo-info">
+            <div class="sb-logo-name">Trackly</div>
+            <div class="sb-logo-tag">MVP Product Docs</div>
+          </div>
+        </div>
+
+        <div class="sb-section">
+          <div class="sb-label">Core Documents</div>
+          <a class="sb-item active" href="#prd"
+            ><span class="sb-item-icon">📋</span> PRD</a
+          >
+          <a class="sb-item" href="#lean-canvas"
+            ><span class="sb-item-icon">🎯</span> Lean Canvas</a
+          >
+          <a class="sb-item" href="#roadmap"
+            ><span class="sb-item-icon">🗺</span> Feature Roadmap</a
+          >
+          <a class="sb-item" href="#user-stories"
+            ><span class="sb-item-icon">👤</span> User Stories</a
+          >
+        </div>
+
+        <div class="sb-section">
+          <div class="sb-label">Engineering</div>
+          <a class="sb-item" href="#tech-stack"
+            ><span class="sb-item-icon">🔧</span> Tech Stack</a
+          >
+          <a class="sb-item" href="#architecture"
+            ><span class="sb-item-icon">🏗</span> Architecture</a
+          >
+          <a class="sb-item" href="#db-schema"
+            ><span class="sb-item-icon">🗄</span> DB Schema</a
+          >
+          <a class="sb-item" href="#api-routes"
+            ><span class="sb-item-icon">🔌</span> API Routes</a
+          >
+          <a class="sb-item" href="#auth"
+            ><span class="sb-item-icon">🔐</span> Auth Design</a
+          >
+          <a class="sb-item" href="#components"
+            ><span class="sb-item-icon">🧩</span> UI Components</a
+          >
+        </div>
+
+        <div class="sb-section">
+          <div class="sb-label">Planning</div>
+          <a class="sb-item" href="#timeline"
+            ><span class="sb-item-icon">📅</span> 1-Month Timeline</a
+          >
+          <a class="sb-item" href="#risks"
+            ><span class="sb-item-icon">⚠️</span> Risks & Mitigations</a
+          >
+          <a class="sb-item" href="#dod"
+            ><span class="sb-item-icon">✅</span> Definition of Done</a
+          >
+        </div>
+
+        <div class="sb-stack">
+          <div class="sb-stack-label">Tech Stack</div>
+          <div class="sb-stack-chips">
+            <span class="sb-stack-chip">Next.js</span>
+            <span class="sb-stack-chip">TypeScript</span>
+            <span class="sb-stack-chip">Tailwind</span>
+            <span class="sb-stack-chip">shadcn/ui</span>
+            <span class="sb-stack-chip">PostgreSQL</span>
+            <span class="sb-stack-chip">Prisma</span>
+            <span class="sb-stack-chip">better-auth</span>
+          </div>
+        </div>
+
+        <div class="sb-meta">
+          <div class="sb-meta-row">
+            <span>Version</span><span>v1.0.0 — MVP</span>
+          </div>
+          <div class="sb-meta-row">
+            <span>Status</span
+            ><span style="color: var(--green)">In Progress</span>
+          </div>
+          <div class="sb-meta-row">
+            <span>Deadline</span><span>1 Month</span>
+          </div>
+          <div class="sb-meta-row">
+            <span>Updated</span><span>Mar 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="main">
+        <!-- Page header -->
+        <div class="page-header">
+          <span class="page-emoji">⏱</span>
+          <div class="page-title">Trackly — MVP Docs</div>
+          <div class="page-desc">
+            A comprehensive product & engineering specification for Trackly — a
+            time tracking SaaS for freelancers and teams. Built on Next.js 15,
+            TypeScript, Tailwind CSS, shadcn/ui, PostgreSQL, Prisma ORM, and
+            better-auth.
+          </div>
+          <div class="page-tags">
+            <span class="tag tag-blue">SaaS</span>
+            <span class="tag tag-green">MVP Stage</span>
+            <span class="tag tag-amber">Time Tracking</span>
+            <span class="tag tag-purple">B2B + B2C</span>
+            <span class="tag tag-teal">Next.js 15</span>
+            <span class="tag tag-gray">1-Month Deadline</span>
+          </div>
+        </div>
+
+        <!-- Contributors / Team Overview -->
+        <div class="contributors">
+          <div class="contributors-title">Contributors</div>
+          <div class="contributors-grid">
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #ffc30f">
+                RS
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Raihan Sharif</span>
+                <span class="contributor-role"
+                  >Tech Lead · Product Engineer · Fullstack Developer</span
+                >
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #0f6fff">
+                K
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Kamal</span>
+                <span class="contributor-role"
+                  >Project Manager · Product Presenter</span
+                >
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #7b6ee8">
+                NB
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Neha Bisht</span>
+                <span class="contributor-role"
+                  >Product Researcher · MVP Designer</span
+                >
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #0a9ea8">
+                KK
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Kshitij Kaushik</span>
+                <span class="contributor-role">Front-end Developer</span>
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #0b9e65">
+                PSR
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Pradeep Singh Rana</span>
+                <span class="contributor-role">Front-end Developer</span>
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #d05a10">
+                DD
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Deepak Dhanik</span>
+                <span class="contributor-role">Front-end Developer</span>
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #c07a12">
+                MSB
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Manohar Singh Bisht</span>
+                <span class="contributor-role">Front-end Developer</span>
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #d03535">
+                SR
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Sarthak Rautela</span>
+                <span class="contributor-role">Front-end Developer</span>
+              </div>
+            </div>
+            <div class="contributor">
+              <div class="contributor-avatar" style="background: #504499">
+                VSD
+              </div>
+              <div class="contributor-info">
+                <span class="contributor-name">Virendra Singh Dhanik</span>
+                <span class="contributor-role">Quality Analyst (QA)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       1. PRD
+  ───────────────────────────────────────── -->
+        <div class="doc-section" id="prd">
+          <div class="section-eyebrow">Document 01</div>
+          <div class="section-title">Product Requirements Document</div>
+          <div class="section-sub">
+            Defines the vision, goals, scope, and requirements for Trackly MVP —
+            targeting a 1-month build cycle.
+          </div>
+
+          <div class="callout blue">
+            <div class="callout-icon">💡</div>
+            <div class="callout-content">
+              <div class="callout-title">Mission statement</div>
+              Trackly helps freelancers and small teams effortlessly track time,
+              understand where hours go, and get paid accurately — without the
+              complexity of enterprise tools. Ship in 1 month, delight on day
+              one.
+            </div>
+          </div>
+
+          <div class="h2">Product overview</div>
+          <div class="prop-grid">
+            <div class="prop-row">
+              <div class="prop-key">📌 Product name</div>
+              <div class="prop-val">Trackly</div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🏷 Category</div>
+              <div class="prop-val">
+                <span class="tag tag-blue">Time Tracking</span>
+                <span class="tag tag-purple">Project Management</span>
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🎯 Target users</div>
+              <div class="prop-val">
+                Freelancers, small agencies, remote teams (2–50 people)
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🏁 MVP goal</div>
+              <div class="prop-val">
+                Core time tracking + reporting for 1 team workspace
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">📅 Deadline</div>
+              <div class="prop-val">
+                <strong>1 month from project start</strong> — Private beta
+                launch
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">💰 Monetisation (Optional)</div>
+              <div class="prop-val">
+                Freemium — paid plans from $9/user/month
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🔧 Tech stack</div>
+              <div class="prop-val">
+                <span class="tag tag-teal tag-mono">Next.js</span>
+                <span class="tag tag-blue tag-mono">TypeScript</span>
+                <span class="tag tag-blue tag-mono">Node.js</span>
+                <span class="tag tag-purple tag-mono">Tailwind CSS</span>
+                <span class="tag tag-gray tag-mono">shadcn/ui</span>
+                <span class="tag tag-amber tag-mono">PostgreSQL</span>
+                <span class="tag tag-amber tag-mono">Prisma ORM</span>
+                <span class="tag tag-green tag-mono">better-auth</span>
+                <span class="tag tag-green tag-mono">Stipe</span>
+                <span class="tag tag-green tag-mono">TurboRepo</span>
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🔗 Inspired by</div>
+              <div class="prop-val">Tickspot</div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🔗 Competitors</div>
+              <div class="prop-val">
+                Tickspot, Toggl Track, Harvest, Clockify etc.
+              </div>
+            </div>
+          </div>
+
+          <div class="h2">Problem statement</div>
+          <div class="body-text">
+            Freelancers and small teams lose money because time tracking tools
+            are either too complex (Jira), too expensive (Harvest), or too
+            bare-bones (spreadsheets). No existing tool is simultaneously
+            simple, affordable, and insightful.
+
+            <br />
+            <br />
+
+            Tickspot is easy to use but lacks modern UX, reporting, and
+            integrations with project management tools (Trello, Asana, Jira
+            etc.). Toggl and Harvest are feature-rich but overwhelming for
+            non-enterprise users. This leads to inconsistent tracking, forgotten
+            billable hours, and lost revenue.
+          </div>
+          <div class="callout amber">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-content">
+              <div class="callout-title">Key pain points</div>
+              Forgetting to log time · No visibility on billable vs non-billable
+              hours · Projects run over budget without warning · Manual invoice
+              creation from disconnected time data · Clunky UX that discourages
+              consistent tracking
+            </div>
+          </div>
+
+          <div class="h2">Goals & success metrics</div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-label">Acquisition</div>
+              <div class="card-value">50+ beta users</div>
+              <div class="card-desc">
+                Brillmark team sign-up within 30 days of beta launch
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Activation</div>
+              <div class="card-value">60% log ≥1 entry</div>
+              <div class="card-desc">
+                80% complete onboarding; time-to-first-entry under 2 min
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Retention</div>
+              <div class="card-value">40% D7 · 25% D30</div>
+              <div class="card-desc">3+ sessions/week for active users</div>
+            </div>
+            <div class="card">
+              <div class="card-label">Conversion</div>
+              <div class="card-value">Tickspot → Trackly</div>
+              <div class="card-desc">
+                Within 60 days; 100% Tickspot data migration to Trackly
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Revenue</div>
+              <div class="card-value">$49 MRR</div>
+              <div class="card-desc">
+                Within 6 months of launch; &lt;$300 monthly expense saved
+              </div>
+            </div>
+          </div>
+
+          <div class="h2">MVP scope</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>MVP</th>
+                <th>Post-MVP</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Start/stop timer</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P0 — core loop</td>
+              </tr>
+              <tr>
+                <td>Manual time entry</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P0 — fallback method</td>
+              </tr>
+              <tr>
+                <td>Clients</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P0 — required for billing</td>
+              </tr>
+              <tr>
+                <td>Projects & tasks</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P0 — required for billing</td>
+              </tr>
+              <tr>
+                <td>Team workspace + roles</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P1 — admin/member roles</td>
+              </tr>
+              <tr>
+                <td>Weekly reports</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P1 — key retention driver</td>
+              </tr>
+              <tr>
+                <td>Budget tracking</td>
+                <td><span class="tag tag-green">Included</span></td>
+                <td>—</td>
+                <td>P1 — alerts at 80%/100%</td>
+              </tr>
+              <tr>
+                <td>CSV export</td>
+                <td><span class="tag tag-amber">Partial</span></td>
+                <td>PDF export</td>
+                <td>Basic CSV only in MVP</td>
+              </tr>
+              <tr>
+                <td>Invoice builder</td>
+                <td><span class="tag tag-gray">Not included</span></td>
+                <td>Q3 2026</td>
+                <td>Post-MVP</td>
+              </tr>
+              <tr>
+                <td>Slack / Jira integrations</td>
+                <td><span class="tag tag-gray">Not included</span></td>
+                <td>Q3 2026</td>
+                <td>Post-MVP</td>
+              </tr>
+              <tr>
+                <td>AI time suggestions</td>
+                <td><span class="tag tag-gray">Not included</span></td>
+                <td>Q1 2027</td>
+                <td>Backlog</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="h2">Functional requirements</div>
+
+          <div class="toggle open">
+            <div class="toggle-head">
+              <span class="toggle-arrow">▶</span> ⏱ Time tracking core
+            </div>
+            <div class="toggle-body">
+              One-click start/stop timer. Timer state persists across page
+              refreshes via server-side state (DB) and local
+              <code>localStorage</code> fallback. Manual entry supports custom
+              date, start/end time or duration, and project assignment. Entries
+              can be edited or deleted within 30 days. Each entry tagged as
+              billable or non-billable. Minimum 1-minute duration to save. One
+              active timer per user at a time.
+            </div>
+          </div>
+
+          <div class="toggle open">
+            <div class="toggle-head">
+              <span class="toggle-arrow">▶</span> 📁 Projects & task management
+            </div>
+            <div class="toggle-body">
+              Users create projects with name, client name, optional hourly
+              rate, and total hour budget. Projects have a status:
+              <code>active</code>, <code>paused</code>, <code>archived</code>.
+              Budget alerts email-notify admin at 80% and 100% consumed. Project
+              color picker for visual identification in reports.
+            </div>
+          </div>
+
+          <div class="toggle">
+            <div class="toggle-head">
+              <span class="toggle-arrow">▶</span> 👥 Team & workspace
+            </div>
+            <div class="toggle-body">
+              Each user belongs to one workspace in MVP. Admin can invite
+              members via email. Roles: <code>admin</code> (full access) and
+              <code>member</code> (log own time only). Admin can set per-member
+              hourly rates. Reports filtered by member visible to admin only.
+              Pending invites expire after 7 days.
+            </div>
+          </div>
+
+          <div class="toggle">
+            <div class="toggle-head">
+              <span class="toggle-arrow">▶</span> 📊 Reports & exports
+            </div>
+            <div class="toggle-body">
+              Summary dashboard: total hours, billable hours, billable revenue.
+              Filter by date range, project, and team member. Bar chart
+              breakdown by project using <code>recharts</code>. Export to CSV
+              (free tier). Weekly Monday email digest for admin. Date ranges:
+              this week, last week, this month, custom.
+            </div>
+          </div>
+
+          <div class="toggle">
+            <div class="toggle-head">
+              <span class="toggle-arrow">▶</span> 🔐 Auth & onboarding
+            </div>
+            <div class="toggle-body">
+              Email/password signup via <code>better-auth</code>. Google OAuth
+              SSO. Confirmation email on signup. Password reset flow. First-run
+              onboarding wizard: create workspace → invite team (optional) →
+              create first project → log first entry. New Google users
+              auto-create workspace; existing users matched by email.
+            </div>
+          </div>
+
+          <div class="h2">Non-functional requirements</div>
+          <div class="prop-grid">
+            <div class="prop-row">
+              <div class="prop-key">⚡ Performance</div>
+              <div class="prop-val">
+                Page load &lt; 1.5s on 4G via Next.js App Router RSC · Timer
+                ticks accurate to ±1s
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">📡 Availability</div>
+              <div class="prop-val">
+                99.5% uptime SLA · Deploy on AWS · Planned maintenance: Mon
+                02:00–04:00 UTC
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🔒 Security</div>
+              <div class="prop-val">
+                Data encrypted at rest (AES-256) · HTTPS only · better-auth
+                session tokens · CSRF protection
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">♿ Accessibility</div>
+              <div class="prop-val">
+                WCAG 2.1 AA · shadcn/ui components (Radix primitives) · Keyboard
+                navigable
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">📈 Scalability</div>
+              <div class="prop-val">
+                Support 10,000 workspaces · PostgreSQL connection pooling via
+                AWS (Superbase) · Serverless-ready
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🧪 Testing</div>
+              <div class="prop-val">
+                Unit tests for business logic (Vitest) · E2E critical paths
+                (Playwright) · CI via GitHub Actions
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       2. LEAN CANVAS
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="lean-canvas">
+          <div class="section-eyebrow">Document 02</div>
+          <div class="section-title">Lean Canvas</div>
+          <div class="section-sub">
+            One-page business model for Trackly MVP.
+          </div>
+
+          <div class="canvas-grid">
+            <div class="canvas-cell span2">
+              <div class="canvas-cell-label">Problem</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>Teams forget to log time consistently</li>
+                  <li>No clear view of billable vs non-billable hours</li>
+                  <li>Projects run over budget without warning</li>
+                  <li>Existing tools are too complex or too expensive</li>
+                </ul>
+              </div>
+            </div>
+            <div class="canvas-cell">
+              <div class="canvas-cell-label">Solution</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>One-click timer + manual entry</li>
+                  <li>Billable tracking per project</li>
+                  <li>Budget alert system</li>
+                  <li>Clean weekly reports</li>
+                </ul>
+              </div>
+            </div>
+            <div class="canvas-cell">
+              <div class="canvas-cell-label">Unique value proposition</div>
+              <div
+                class="canvas-cell-content"
+                style="font-weight: 600; color: var(--text1)"
+              >
+                The simplest time tracker that shows you exactly where your
+                money is — in under 60 seconds a day.
+              </div>
+            </div>
+            <div class="canvas-cell">
+              <div class="canvas-cell-label">Unfair advantage</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>Opinionated, minimal UX</li>
+                  <li>Built-in budget alerts</li>
+                  <li>Freemium with instant upgrade</li>
+                  <li>Open-source friendly stack</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="canvas-cell span2">
+              <div class="canvas-cell-label">Customer segments</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>Freelancers billing by the hour</li>
+                  <li>Small agencies (2–20 people)</li>
+                  <li>Remote-first product teams</li>
+                  <li>Consultants tracking client projects</li>
+                </ul>
+              </div>
+            </div>
+            <div class="canvas-cell">
+              <div class="canvas-cell-label">Key metrics</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>Daily active users (DAU)</li>
+                  <li>Entries logged per user/week</li>
+                  <li>Free → paid conversion %</li>
+                  <li>Workspace churn rate</li>
+                </ul>
+              </div>
+            </div>
+            <div class="canvas-cell">
+              <div class="canvas-cell-label">Channels</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>Product Hunt launch</li>
+                  <li>SEO — "time tracking for freelancers"</li>
+                  <li>Twitter / LinkedIn organic</li>
+                  <li>Dev communities (indie hackers)</li>
+                </ul>
+              </div>
+            </div>
+            <div class="canvas-cell">
+              <div class="canvas-cell-label">Early adopters</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>Indie hackers & solopreneurs</li>
+                  <li>Design/dev freelancers</li>
+                  <li>Bootstrapped SaaS teams</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="canvas-cell span2 no-bottom">
+              <div class="canvas-cell-label">Cost structure</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>
+                    Hosting: AWS or Vercel (free → pro) + PostgreSQL ~$25/mo MVP
+                  </li>
+                  <li>Email: Resend ~$20/mo</li>
+                  <li>Founder time (1–2 FTE)</li>
+                  <li>Marketing budget ~$200/mo</li>
+                </ul>
+              </div>
+            </div>
+            <div class="canvas-cell span3 no-bottom" style="border-right: none">
+              <div class="canvas-cell-label">Revenue streams (Optional)</div>
+              <div class="canvas-cell-content">
+                <ul>
+                  <li>
+                    <strong>Free</strong> — up to 3 projects, 1 user, 30-day
+                    history
+                  </li>
+                  <li>
+                    <strong>Pro</strong> — $9/user/mo — unlimited projects,
+                    reports, CSV export
+                  </li>
+                  <li>
+                    <strong>Team</strong> — $7/user/mo (5+ seats) — admin
+                    controls, roles, priority support
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       3. FEATURE ROADMAP
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="roadmap">
+          <div class="section-eyebrow">Document 03</div>
+          <div class="section-title">Feature Roadmap</div>
+          <div class="section-sub">
+            Phased delivery plan. Phase 1 is the 1-month MVP build.
+          </div>
+
+          <div class="callout green">
+            <div class="callout-icon">🗓</div>
+            <div class="callout-content">
+              <div class="callout-title">Roadmap philosophy</div>
+              Ship thin slices fast. Each phase must independently deliver user
+              value. Phase 1 is strictly scoped to the 1-month deadline —
+              nothing else gets added without removing something.
+            </div>
+          </div>
+
+          <div class="h2">Priority matrix</div>
+          <div class="matrix">
+            <div class="matrix-cell">
+              <div class="matrix-cell-label" style="color: var(--red-text)">
+                🔴 Do now — high impact, low effort
+              </div>
+              <ul>
+                <li>Start/stop timer</li>
+                <li>Manual time entry</li>
+                <li>Project creation (CRUD)</li>
+                <li>Basic weekly dashboard</li>
+              </ul>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-cell-label" style="color: var(--amber-text)">
+                🟡 Plan next — high impact, high effort
+              </div>
+              <ul>
+                <li>Team workspace + roles</li>
+                <li>Budget tracking & alerts</li>
+                <li>CSV export</li>
+                <li>Onboarding wizard</li>
+              </ul>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-cell-label" style="color: var(--green-text)">
+                🟢 Quick wins — low effort
+              </div>
+              <ul>
+                <li>Dark mode (Tailwind)</li>
+                <li>Weekly email digest</li>
+                <li>Keyboard shortcuts</li>
+                <li>Responsive mobile view</li>
+              </ul>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-cell-label" style="color: var(--text3)">
+                ⚪ Backlog — post-MVP
+              </div>
+              <ul>
+                <li>Invoice builder</li>
+                <li>Slack / Jira integrations</li>
+                <li>AI time suggestions</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="h2">Quarterly roadmap</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Phase</th>
+                <th>Timeline</th>
+                <th>Features</th>
+                <th>Goal</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 700">Phase 1</td>
+                <td><strong>Month 1</strong></td>
+                <td>
+                  Timer, manual entry, projects, dashboard, auth, basic reports
+                </td>
+                <td>Private beta</td>
+                <td><span class="tag tag-blue">Building</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700">Phase 2</td>
+                <td>Q3 2026</td>
+                <td>
+                  Team workspace, roles, budget alerts, CSV/PDF export, billing
+                  (Stripe)
+                </td>
+                <td>Public launch + paid plans</td>
+                <td><span class="tag tag-gray">Planned</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 700">Phase 3</td>
+                <td>Q4 2026</td>
+                <td>
+                  Invoice builder, Slack integration, browser extension, PWA
+                </td>
+                <td>Retention & expansion</td>
+                <td><span class="tag tag-gray">Planned</span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="h2">Phase 1 — detailed task breakdown</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Est. Effort</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Auth (email + Google)</td>
+                <td>
+                  better-auth setup, signup, login, reset password, email
+                  verification
+                </td>
+                <td><span class="tag tag-red">P0</span></td>
+                <td>3 days</td>
+                <td>Full-stack</td>
+              </tr>
+              <tr>
+                <td>DB schema & migrations</td>
+                <td>
+                  Prisma ORM schema: users, workspaces, projects, time_entries
+                </td>
+                <td><span class="tag tag-red">P0</span></td>
+                <td>1 day</td>
+                <td>Backend</td>
+              </tr>
+              <tr>
+                <td>Timer widget</td>
+                <td>
+                  Start/stop, persist state to DB, tag project, elapsed display
+                </td>
+                <td><span class="tag tag-red">P0</span></td>
+                <td>2 days</td>
+                <td>Frontend</td>
+              </tr>
+              <tr>
+                <td>Manual entry form</td>
+                <td>
+                  Date, start/end or duration, project, notes, billable flag
+                </td>
+                <td><span class="tag tag-red">P0</span></td>
+                <td>1 day</td>
+                <td>Frontend</td>
+              </tr>
+              <tr>
+                <td>Project CRUD</td>
+                <td>
+                  Create/edit/archive projects, hourly rate, budget, color
+                </td>
+                <td><span class="tag tag-red">P0</span></td>
+                <td>2 days</td>
+                <td>Full-stack</td>
+              </tr>
+              <tr>
+                <td>API routes (Next.js)</td>
+                <td>REST-style Route Handlers for all CRUD operations</td>
+                <td><span class="tag tag-red">P0</span></td>
+                <td>2 days</td>
+                <td>Backend</td>
+              </tr>
+              <tr>
+                <td>Dashboard summary</td>
+                <td>
+                  Hours this week, billable %, active projects, recharts bar
+                  chart
+                </td>
+                <td><span class="tag tag-amber">P1</span></td>
+                <td>2 days</td>
+                <td>Frontend</td>
+              </tr>
+              <tr>
+                <td>Time log list view</td>
+                <td>Table of entries, inline edit/delete, pagination</td>
+                <td><span class="tag tag-amber">P1</span></td>
+                <td>1 day</td>
+                <td>Frontend</td>
+              </tr>
+              <tr>
+                <td>Basic reports</td>
+                <td>Weekly breakdown by project, date filter, CSV export</td>
+                <td><span class="tag tag-amber">P1</span></td>
+                <td>2 days</td>
+                <td>Full-stack</td>
+              </tr>
+              <tr>
+                <td>Team / workspace</td>
+                <td>Invite by email, admin/member roles, workspace settings</td>
+                <td><span class="tag tag-amber">P1</span></td>
+                <td>3 days</td>
+                <td>Full-stack</td>
+              </tr>
+              <tr>
+                <td>Onboarding flow</td>
+                <td>Guided wizard: workspace → project → first log</td>
+                <td><span class="tag tag-green">P2</span></td>
+                <td>1 day</td>
+                <td>Frontend</td>
+              </tr>
+              <tr>
+                <td>Email notifications</td>
+                <td>Verification, invite, budget alert via Resend</td>
+                <td><span class="tag tag-green">P2</span></td>
+                <td>1 day</td>
+                <td>Backend</td>
+              </tr>
+              <tr>
+                <td>Deployment & CI</td>
+                <td>
+                  AWS or Vercel deploy, GitHub Actions, env config, PostgreSQL
+                  DB
+                </td>
+                <td><span class="tag tag-green">P2</span></td>
+                <td>1 day</td>
+                <td>DevOps</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       4. USER STORIES
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="user-stories">
+          <div class="section-eyebrow">Document 04</div>
+          <div class="section-title">User Stories & Flows</div>
+          <div class="section-sub">
+            Core user journeys and acceptance criteria for Phase 1 MVP.
+          </div>
+
+          <div class="h2">Personas</div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-label">Persona 01</div>
+              <div class="card-value">Freelance Farhan</div>
+              <div class="card-desc">
+                Solo developer, bills hourly. Needs to know how many hours he
+                worked per client this week to send invoices on time.
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Persona 02</div>
+              <div class="card-value">Agency Lead Anika</div>
+              <div class="card-desc">
+                Runs a 5-person design agency. Needs to see if team hours are
+                within project budgets before client billing date.
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-label">Persona 03</div>
+              <div class="card-value">Remote Dev Sara</div>
+              <div class="card-desc">
+                Full-time remote employee. Manager wants weekly timesheets. Sara
+                logs hours across 3 ongoing projects daily.
+              </div>
+            </div>
+          </div>
+
+          <div class="h2">Core user stories</div>
+
+          <div class="h3">Epic 1 — Authentication</div>
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-001</span
+              ><span class="tag tag-red">P0</span>
+            </div>
+            <div class="story-title">Sign up with email</div>
+            <div class="story-desc">
+              As a new user, I want to create an account with my email so that I
+              can start tracking time.
+            </div>
+            <ul class="story-ac">
+              <li>Register with email + password (min 8 chars)</li>
+              <li>Confirmation email sent via Resend on signup</li>
+              <li>Invalid email shows inline Zod validation error</li>
+              <li>Unverified users can log in but see a banner</li>
+            </ul>
+          </div>
+
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-002</span
+              ><span class="tag tag-red">P0</span>
+            </div>
+            <div class="story-title">Sign in with Google</div>
+            <div class="story-desc">
+              As a returning user, I want to log in with Google so that I don't
+              have to remember a password.
+            </div>
+            <ul class="story-ac">
+              <li>Google OAuth button visible on login screen</li>
+              <li>New Google users auto-create a workspace</li>
+              <li>Existing users matched by email, merged into account</li>
+              <li>Redirect to dashboard on success</li>
+            </ul>
+          </div>
+
+          <div class="h3">Epic 2 — Time tracking</div>
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-010</span
+              ><span class="tag tag-red">P0</span>
+            </div>
+            <div class="story-title">Start a timer</div>
+            <div class="story-desc">
+              As a user, I want to start a timer with one click so that I can
+              begin tracking without interrupting my flow.
+            </div>
+            <ul class="story-ac">
+              <li>Timer starts on click, shows elapsed time in header</li>
+              <li>User can optionally set project before starting</li>
+              <li>
+                Timer state persists to DB on start (not just localStorage)
+              </li>
+              <li>Only one active timer allowed per user at a time</li>
+            </ul>
+          </div>
+
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-011</span
+              ><span class="tag tag-red">P0</span>
+            </div>
+            <div class="story-title">Stop and save a timer</div>
+            <div class="story-desc">
+              As a user, I want to stop my timer and save the entry so that the
+              time is logged against the right project.
+            </div>
+            <ul class="story-ac">
+              <li>Stop button saves entry with duration, project, timestamp</li>
+              <li>
+                User prompted to add notes and confirm billable flag in modal
+              </li>
+              <li>
+                Entry appears immediately in time log via optimistic update
+              </li>
+              <li>Minimum 1-minute duration enforced</li>
+            </ul>
+          </div>
+
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-012</span
+              ><span class="tag tag-amber">P1</span>
+            </div>
+            <div class="story-title">Log time manually</div>
+            <div class="story-desc">
+              As a user, I want to log time for past work so I can capture hours
+              I forgot to track in real time.
+            </div>
+            <ul class="story-ac">
+              <li>Form accepts date, start time, end time or duration</li>
+              <li>Can backdate up to 90 days</li>
+              <li>Project and notes fields available</li>
+              <li>Entry visible in time log immediately after saving</li>
+            </ul>
+          </div>
+
+          <div class="h3">Epic 3 — Projects</div>
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-020</span
+              ><span class="tag tag-red">P0</span>
+            </div>
+            <div class="story-title">Create a project</div>
+            <div class="story-desc">
+              As an admin, I want to create a project with a budget so that I
+              can track time spent vs planned.
+            </div>
+            <ul class="story-ac">
+              <li>Required fields: project name, client name</li>
+              <li>Optional: hourly rate, total hour budget, color label</li>
+              <li>Project visible to all workspace members immediately</li>
+              <li>Budget alerts set at 80% and 100% by default (email)</li>
+            </ul>
+          </div>
+
+          <div class="h3">Epic 4 — Reports</div>
+          <div class="story-card">
+            <div class="story-header">
+              <span class="story-id">US-030</span
+              ><span class="tag tag-amber">P1</span>
+            </div>
+            <div class="story-title">View weekly report</div>
+            <div class="story-desc">
+              As a user, I want to see a summary of my time this week so that I
+              know if I'm on track with my workload.
+            </div>
+            <ul class="story-ac">
+              <li>
+                Shows total hours, billable hours, and revenue for selected
+                period
+              </li>
+              <li>Breakdown by project as a bar chart (recharts)</li>
+              <li>
+                Date range filter: this week, last week, this month, custom
+              </li>
+              <li>Export to CSV on all plans; PDF on Pro</li>
+            </ul>
+          </div>
+
+          <div class="h2">First-run user flow</div>
+          <div class="flow">
+            <div class="flow-step">
+              <div class="flow-step-num">STEP 01</div>
+              <div class="flow-step-title">Sign up</div>
+              <div class="flow-step-desc">
+                Email or Google OAuth. Workspace auto-created.
+              </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+              <div class="flow-step-num">STEP 02</div>
+              <div class="flow-step-title">Create project</div>
+              <div class="flow-step-desc">
+                Name, client, budget. Onboarding wizard guides user.
+              </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+              <div class="flow-step-num">STEP 03</div>
+              <div class="flow-step-title">Start timer</div>
+              <div class="flow-step-desc">
+                One-click from dashboard header. Assign to project.
+              </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+              <div class="flow-step-num">STEP 04</div>
+              <div class="flow-step-title">Stop & save</div>
+              <div class="flow-step-desc">
+                Confirm project, add notes, set billable flag.
+              </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+              <div class="flow-step-num">STEP 05</div>
+              <div class="flow-step-title">View report</div>
+              <div class="flow-step-desc">
+                See hours logged, budget consumed, billable revenue.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       5. TECH STACK
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="tech-stack">
+          <div class="section-eyebrow">Document 05</div>
+          <div class="section-title">Tech Stack</div>
+          <div class="section-sub">
+            Full technology breakdown for the Trackly MVP build.
+          </div>
+
+          <div class="callout teal">
+            <div class="callout-icon">🔧</div>
+            <div class="callout-content">
+              <div class="callout-title">Stack philosophy</div>
+              Chosen for DX speed and type-safety end-to-end. TypeScript
+              everywhere — from DB schema (Prisma) to API route to UI component.
+              shadcn/ui gives production-quality components with zero style
+              lock-in. better-auth replaces NextAuth with a cleaner API and
+              built-in session management.
+            </div>
+          </div>
+
+          <div class="stack-grid">
+            <div class="stack-card">
+              <div class="stack-card-cat">🖥 Frontend</div>
+              <div class="stack-card-items">
+                <div class="stack-item">
+                  <span class="stack-item-name">Next.js 15</span
+                  ><span class="stack-item-desc"
+                    >App Router, RSC, Server Actions, file-based routing</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">TypeScript</span
+                  ><span class="stack-item-desc"
+                    >Strict mode throughout — no any</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Tailwind CSS</span
+                  ><span class="stack-item-desc"
+                    >Utility-first, JIT, responsive + dark mode</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">shadcn/ui</span
+                  ><span class="stack-item-desc"
+                    >Radix primitives, copy-paste components, fully typed</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">recharts</span
+                  ><span class="stack-item-desc"
+                    >Bar/line charts for reports dashboard</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Zustand</span
+                  ><span class="stack-item-desc"
+                    >Global timer state & UI state management</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">React Hook Form</span
+                  ><span class="stack-item-desc"
+                    >Forms with Zod validation schemas</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Zod</span
+                  ><span class="stack-item-desc"
+                    >Schema validation — shared client & server</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="stack-card">
+              <div class="stack-card-cat">⚙️ Backend</div>
+              <div class="stack-card-items">
+                <div class="stack-item">
+                  <span class="stack-item-name">Next.js API</span
+                  ><span class="stack-item-desc"
+                    >Route Handlers in app/api/** for REST endpoints</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Server Actions</span
+                  ><span class="stack-item-desc"
+                    >Mutations (create/update/delete) without fetch
+                    boilerplate</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">better-auth</span
+                  ><span class="stack-item-desc"
+                    >Auth library — email, Google OAuth, session mgmt</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Prisma ORM</span
+                  ><span class="stack-item-desc"
+                    >Type-safe SQL, schema-first migrations, PostgreSQL
+                    adapter</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">PostgreSQL</span
+                  ><span class="stack-item-desc"
+                    >Primary database — hosted on PostgreSQL (serverless)</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Resend</span
+                  ><span class="stack-item-desc"
+                    >Transactional emails — invites, verification, alerts</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">react-email</span
+                  ><span class="stack-item-desc"
+                    >JSX-based email templates for Resend</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="stack-card">
+              <div class="stack-card-cat">🚀 Infrastructure</div>
+              <div class="stack-card-items">
+                <div class="stack-item">
+                  <span class="stack-item-name">Vercel</span
+                  ><span class="stack-item-desc"
+                    >Deployment, Edge Network, preview environments</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">PostgreSQL</span
+                  ><span class="stack-item-desc"
+                    >Serverless PostgreSQL — branching + autoscale</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">GitHub Actions</span
+                  ><span class="stack-item-desc"
+                    >CI: lint, type-check, test on every PR</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Stripe</span
+                  ><span class="stack-item-desc"
+                    >Billing (Phase 2) — subscriptions, webhooks</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="stack-card">
+              <div class="stack-card-cat">🧪 Testing & DX</div>
+              <div class="stack-card-items">
+                <div class="stack-item">
+                  <span class="stack-item-name">Vitest</span
+                  ><span class="stack-item-desc"
+                    >Unit tests for business logic & utilities</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Playwright</span
+                  ><span class="stack-item-desc"
+                    >E2E tests for auth + timer critical path</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Biome</span
+                  ><span class="stack-item-desc"
+                    >Next.js + TypeScript rules, strict config</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Prettier</span
+                  ><span class="stack-item-desc"
+                    >Opinionated formatting, auto on save</span
+                  >
+                </div>
+                <div class="stack-item">
+                  <span class="stack-item-name">Husky</span
+                  ><span class="stack-item-desc"
+                    >Pre-commit hooks: lint-staged, type-check</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       6. ARCHITECTURE
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="architecture">
+          <div class="section-eyebrow">Document 06</div>
+          <div class="section-title">Architecture</div>
+          <div class="section-sub">
+            Project structure and Next.js App Router architecture overview.
+          </div>
+
+          <div class="h2">Folder structure</div>
+          <div class="folder">
+            <span class="dir">trackly/</span>
+            ├── <span class="dir">app/</span>
+            <span class="comment"># Next.js App Router</span> │ ├──
+            <span class="dir">(auth)/</span>
+            <span class="comment"># Route group — no layout</span> │ │ ├──
+            <span class="dir">login/</span>page.tsx │ │ └──
+            <span class="dir">signup/</span>page.tsx │ ├──
+            <span class="dir">(dashboard)/</span>
+            <span class="comment"># Authenticated route group</span> │ │ ├──
+            <span class="dir">dashboard/</span>page.tsx │ │ ├──
+            <span class="dir">projects/</span> │ │ │ ├── page.tsx │ │ │ └──
+            <span class="dir">[id]/</span>page.tsx │ │ ├──
+            <span class="dir">reports/</span>page.tsx │ │ ├──
+            <span class="dir">settings/</span>page.tsx │ │ └── layout.tsx
+            <span class="comment"># Dashboard shell + auth guard</span> │ ├──
+            <span class="dir">api/</span> │ │ ├──
+            <span class="dir">time-entries/</span>route.ts │ │ ├──
+            <span class="dir">projects/</span>route.ts │ │ ├──
+            <span class="dir">workspace/</span>route.ts │ │ └──
+            <span class="dir">auth/</span>[...all]/route.ts
+            <span class="comment"># better-auth handler</span> │ ├── globals.css
+            │ └── layout.tsx ├── <span class="dir">components/</span> │ ├──
+            <span class="dir">ui/</span>
+            <span class="comment"># shadcn/ui components (auto-generated)</span>
+            │ ├── <span class="dir">timer/</span>
+            <span class="comment"># TimerWidget, TimerDisplay</span> │ ├──
+            <span class="dir">time-entries/</span>
+            <span class="comment"># TimeEntryRow, ManualEntryForm</span> │ ├──
+            <span class="dir">projects/</span>
+            <span class="comment"># ProjectCard, ProjectForm</span> │ ├──
+            <span class="dir">reports/</span>
+            <span class="comment"># WeeklyChart, ReportFilters</span> │ └──
+            <span class="dir">layout/</span>
+            <span class="comment"># Sidebar, TopNav, UserMenu</span> ├──
+            <span class="dir">lib/</span> │ ├── auth.ts
+            <span class="comment"># better-auth config</span> │ ├── db.ts
+            <span class="comment"># Prisma client</span> │ ├──
+            <span class="dir">schema/</span>
+            <span class="comment"># Prisma schema files</span> │ ├──
+            <span class="dir">actions/</span>
+            <span class="comment"># Server Actions</span> │ ├──
+            <span class="dir">validations/</span>
+            <span class="comment"># Zod schemas</span> │ └── utils.ts ├──
+            <span class="dir">hooks/</span>
+            <span class="comment"># Custom React hooks</span> ├──
+            <span class="dir">store/</span>
+            <span class="comment"># Zustand stores (timer state)</span> ├──
+            <span class="dir">types/</span>
+            <span class="comment"># Global TypeScript types</span> ├──
+            <span class="dir">emails/</span>
+            <span class="comment"># react-email templates</span> ├──
+            Prisma.config.ts └── middleware.ts
+            <span class="comment"># Auth middleware / route protection</span>
+          </div>
+
+          <div class="h2">Data flow pattern</div>
+          <div class="flow" style="flex-wrap: wrap; gap: 8px">
+            <div class="flow-step" style="min-width: 150px">
+              <div class="flow-step-num">CLIENT</div>
+              <div class="flow-step-title">React Component</div>
+              <div class="flow-step-desc">
+                shadcn/ui + Tailwind. Zustand for local state.
+              </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" style="min-width: 150px">
+              <div class="flow-step-num">MUTATION</div>
+              <div class="flow-step-title">Server Action</div>
+              <div class="flow-step-desc">
+                Type-safe. Zod validation. Runs on server.
+              </div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" style="min-width: 150px">
+              <div class="flow-step-num">ORM</div>
+              <div class="flow-step-title">Prisma Query</div>
+              <div class="flow-step-desc">Typed SQL. No raw queries.</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step" style="min-width: 150px">
+              <div class="flow-step-num">DATABASE</div>
+              <div class="flow-step-title">PostgreSQL PostgreSQL</div>
+              <div class="flow-step-desc">
+                Serverless. HTTP pooling. Branching for dev.
+              </div>
+            </div>
+          </div>
+
+          <div class="callout purple">
+            <div class="callout-icon">📌</div>
+            <div class="callout-content">
+              <div class="callout-title">
+                Pattern decision: Server Actions vs Route Handlers
+              </div>
+              Server Actions are used for all mutations (create, update, delete)
+              — simpler, no fetch needed. Route Handlers
+              (<code>app/api/**</code>) are used only for data fetching that
+              needs a cacheable URL (reports export, third-party webhooks,
+              public API endpoints).
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       7. DB SCHEMA
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="db-schema">
+          <div class="section-eyebrow">Document 07</div>
+          <div class="section-title">Database Schema</div>
+          <div class="section-sub">
+            Prisma ORM schema for Trackly MVP. All tables use UUID primary keys.
+          </div>
+
+          <div class="callout blue">
+            <div class="callout-icon">🗄</div>
+            <div class="callout-content">
+              <div class="callout-title">
+                ORM: Prisma + PostgreSQL PostgreSQL
+              </div>
+              Schema is defined in <code>lib/schema/</code>. Migrations
+              generated with <code>prisma generate</code> and run with
+              <code>prisma migrate</code>. Types are inferred — no manual
+              interface duplication needed.
+            </div>
+          </div>
+
+          <div class="schema-table">
+            <div class="schema-table-name">
+              users
+              <span class="tag tag-gray schema-tag">better-auth managed</span>
+            </div>
+            <div class="schema-fields">
+              <div class="schema-field">
+                <span class="schema-field-name pk">id</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">PK — auto-generated</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">email</span
+                ><span class="schema-field-type">varchar(255)</span
+                ><span class="schema-field-note">UNIQUE, NOT NULL</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">name</span
+                ><span class="schema-field-type">varchar(100)</span
+                ><span class="schema-field-note">Display name</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">emailVerified</span
+                ><span class="schema-field-type">boolean</span
+                ><span class="schema-field-note">Default false</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">image</span
+                ><span class="schema-field-type">text</span
+                ><span class="schema-field-note">Avatar URL (nullable)</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">createdAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">DEFAULT now()</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">updatedAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">Auto-updated</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schema-table">
+            <div class="schema-table-name">workspaces</div>
+            <div class="schema-fields">
+              <div class="schema-field">
+                <span class="schema-field-name pk">id</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">PK</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">name</span
+                ><span class="schema-field-type">varchar(100)</span
+                ><span class="schema-field-note">NOT NULL</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">ownerId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → users.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">slug</span
+                ><span class="schema-field-type">varchar(50)</span
+                ><span class="schema-field-note">UNIQUE — URL-friendly</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">plan</span
+                ><span class="schema-field-type">varchar(20)</span
+                ><span class="schema-field-note">'free' | 'pro' | 'team'</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">createdAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">DEFAULT now()</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schema-table">
+            <div class="schema-table-name">workspace_members</div>
+            <div class="schema-fields">
+              <div class="schema-field">
+                <span class="schema-field-name pk">id</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">PK</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">workspaceId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → workspaces.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">userId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → users.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">role</span
+                ><span class="schema-field-type">varchar(20)</span
+                ><span class="schema-field-note">'admin' | 'member'</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">hourlyRate</span
+                ><span class="schema-field-type">numeric(8,2)</span
+                ><span class="schema-field-note"
+                  >Per-member rate (nullable)</span
+                >
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">joinedAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">DEFAULT now()</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schema-table">
+            <div class="schema-table-name">projects</div>
+            <div class="schema-fields">
+              <div class="schema-field">
+                <span class="schema-field-name pk">id</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">PK</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">workspaceId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → workspaces.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">name</span
+                ><span class="schema-field-type">varchar(100)</span
+                ><span class="schema-field-note">NOT NULL</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">clientName</span
+                ><span class="schema-field-type">varchar(100)</span
+                ><span class="schema-field-note">Nullable</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">color</span
+                ><span class="schema-field-type">varchar(7)</span
+                ><span class="schema-field-note">Hex color — e.g. #3B82F6</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">hourlyRate</span
+                ><span class="schema-field-type">numeric(8,2)</span
+                ><span class="schema-field-note">Default billing rate</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">budgetHours</span
+                ><span class="schema-field-type">numeric(8,2)</span
+                ><span class="schema-field-note"
+                  >Total hour budget (nullable)</span
+                >
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">status</span
+                ><span class="schema-field-type">varchar(20)</span
+                ><span class="schema-field-note"
+                  >'active' | 'paused' | 'archived'</span
+                >
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">createdAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">DEFAULT now()</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schema-table">
+            <div class="schema-table-name">
+              time_entries
+              <span class="tag tag-blue schema-tag">core table</span>
+            </div>
+            <div class="schema-fields">
+              <div class="schema-field">
+                <span class="schema-field-name pk">id</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">PK</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">userId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → users.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">projectId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note"
+                  >FK → projects.id (nullable)</span
+                >
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">workspaceId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → workspaces.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">description</span
+                ><span class="schema-field-type">text</span
+                ><span class="schema-field-note">Notes / task description</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">startTime</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">NOT NULL</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">endTime</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">NULL = timer running</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">durationSecs</span
+                ><span class="schema-field-type">integer</span
+                ><span class="schema-field-note">Computed on stop</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">billable</span
+                ><span class="schema-field-type">boolean</span
+                ><span class="schema-field-note">Default true</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">createdAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">DEFAULT now()</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schema-table">
+            <div class="schema-table-name">invitations</div>
+            <div class="schema-fields">
+              <div class="schema-field">
+                <span class="schema-field-name pk">id</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">PK</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name fk">workspaceId</span
+                ><span class="schema-field-type">uuid</span
+                ><span class="schema-field-note">FK → workspaces.id</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">email</span
+                ><span class="schema-field-type">varchar(255)</span
+                ><span class="schema-field-note">Invitee email</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">role</span
+                ><span class="schema-field-type">varchar(20)</span
+                ><span class="schema-field-note">'admin' | 'member'</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">token</span
+                ><span class="schema-field-type">varchar(64)</span
+                ><span class="schema-field-note">UNIQUE — secure random</span>
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">status</span
+                ><span class="schema-field-type">varchar(20)</span
+                ><span class="schema-field-note"
+                  >'pending' | 'accepted' | 'expired'</span
+                >
+              </div>
+              <div class="schema-field">
+                <span class="schema-field-name">expiresAt</span
+                ><span class="schema-field-type">timestamp</span
+                ><span class="schema-field-note">+7 days from creation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       8. API ROUTES
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="api-routes">
+          <div class="section-eyebrow">Document 08</div>
+          <div class="section-title">API Routes</div>
+          <div class="section-sub">
+            Next.js Route Handlers in <code>app/api/</code>. All routes require
+            authentication unless marked public.
+          </div>
+
+          <div class="h3">Time Entries</div>
+          <div class="api-block">
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/time-entries</span
+              ><span class="api-desc">List entries with filters</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/time-entries</span
+              ><span class="api-desc">Create manual entry</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method patch">PATCH</span
+              ><span class="api-path">/api/time-entries/:id</span
+              ><span class="api-desc">Update entry</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method delete">DELETE</span
+              ><span class="api-path">/api/time-entries/:id</span
+              ><span class="api-desc">Delete entry</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/time-entries/start</span
+              ><span class="api-desc">Start timer</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/time-entries/stop</span
+              ><span class="api-desc">Stop running timer</span>
+            </div>
+            <div class="api-auth">
+              🔐 All routes require valid session · Filtered by workspace from
+              session
+            </div>
+          </div>
+
+          <div class="h3">Projects</div>
+          <div class="api-block">
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/projects</span
+              ><span class="api-desc">List workspace projects</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/projects</span
+              ><span class="api-desc">Create project (admin only)</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/projects/:id</span
+              ><span class="api-desc">Get project with stats</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method patch">PATCH</span
+              ><span class="api-path">/api/projects/:id</span
+              ><span class="api-desc">Update project (admin only)</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method delete">DELETE</span
+              ><span class="api-path">/api/projects/:id</span
+              ><span class="api-desc">Archive project (admin only)</span>
+            </div>
+            <div class="api-auth">🔐 Mutation routes require admin role</div>
+          </div>
+
+          <div class="h3">Reports</div>
+          <div class="api-block">
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/reports/summary</span
+              ><span class="api-desc">Aggregated stats by date range</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/reports/export</span
+              ><span class="api-desc"
+                >CSV export (query params for filters)</span
+              >
+            </div>
+            <div class="api-auth">
+              🔐 Admin sees all members · Members see only own data
+            </div>
+          </div>
+
+          <div class="h3">Workspace</div>
+          <div class="api-block">
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/workspace</span
+              ><span class="api-desc">Get current workspace</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method patch">PATCH</span
+              ><span class="api-path">/api/workspace</span
+              ><span class="api-desc">Update settings (admin)</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/workspace/members</span
+              ><span class="api-desc">List members</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/workspace/invite</span
+              ><span class="api-desc">Send invite email</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method delete">DELETE</span
+              ><span class="api-path">/api/workspace/members/:id</span
+              ><span class="api-desc">Remove member (admin)</span>
+            </div>
+          </div>
+
+          <div class="h3">Auth (better-auth)</div>
+          <div class="api-block">
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/auth/sign-in/email</span
+              ><span class="api-desc">Email login</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/auth/sign-up/email</span
+              ><span class="api-desc">Email signup</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method get">GET</span
+              ><span class="api-path">/api/auth/sign-in/google</span
+              ><span class="api-desc">Google OAuth redirect</span>
+            </div>
+            <div class="api-route">
+              <span class="api-method post">POST</span
+              ><span class="api-path">/api/auth/sign-out</span
+              ><span class="api-desc">Invalidate session</span>
+            </div>
+            <div class="api-auth">
+              🌐 Public routes — handled by better-auth [...all] catch-all
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       9. AUTH DESIGN
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="auth">
+          <div class="section-eyebrow">Document 09</div>
+          <div class="section-title">Auth Design</div>
+          <div class="section-sub">
+            Authentication architecture using better-auth with email and Google
+            OAuth.
+          </div>
+
+          <div class="callout green">
+            <div class="callout-icon">🔐</div>
+            <div class="callout-content">
+              <div class="callout-title">Why better-auth over NextAuth?</div>
+              better-auth provides a cleaner TypeScript API, first-class Prisma
+              adapter, built-in session management with rotation, and no adapter
+              inconsistencies. Config lives in <code>lib/auth.ts</code> and is
+              shared between server and client.
+            </div>
+          </div>
+
+          <div class="h2">Auth configuration</div>
+          <div class="prop-grid">
+            <div class="prop-row">
+              <div class="prop-key">📦 Package</div>
+              <div class="prop-val">
+                <code>better-auth</code> with Prisma adapter
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🔑 Providers</div>
+              <div class="prop-val">Email/password · Google OAuth 2.0</div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🍪 Sessions</div>
+              <div class="prop-val">
+                HTTP-only cookies · 30-day expiry · Rotation on use
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🛡 Middleware</div>
+              <div class="prop-val">
+                <code>middleware.ts</code> — protect all
+                <code>(dashboard)</code> routes · Redirect to
+                <code>/login</code> if unauthenticated
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">📧 Emails</div>
+              <div class="prop-val">
+                Verification on signup · Password reset · Invite to workspace —
+                all via Resend
+              </div>
+            </div>
+            <div class="prop-row">
+              <div class="prop-key">🔒 Password</div>
+              <div class="prop-val">
+                Bcrypt hashed · Min 8 chars enforced · No max (bcrypt handles)
+              </div>
+            </div>
+          </div>
+
+          <div class="h2">Route protection</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Route pattern</th>
+                <th>Access</th>
+                <th>Redirect on fail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>/login</code>, <code>/signup</code></td>
+                <td>Public — redirect away if authed</td>
+                <td>/dashboard</td>
+              </tr>
+              <tr>
+                <td><code>/dashboard/**</code></td>
+                <td>Auth required</td>
+                <td>/login</td>
+              </tr>
+              <tr>
+                <td><code>/projects/**</code></td>
+                <td>Auth + workspace membership</td>
+                <td>/login</td>
+              </tr>
+              <tr>
+                <td><code>/settings/**</code></td>
+                <td>Auth + admin role for workspace settings</td>
+                <td>/dashboard</td>
+              </tr>
+              <tr>
+                <td><code>/api/auth/**</code></td>
+                <td>Public (better-auth handles)</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><code>/api/**</code></td>
+                <td>Auth required — session checked via better-auth</td>
+                <td>401 JSON</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       10. UI COMPONENTS
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="components">
+          <div class="section-eyebrow">Document 10</div>
+          <div class="section-title">UI Components</div>
+          <div class="section-sub">
+            shadcn/ui component inventory and custom component checklist for
+            MVP.
+          </div>
+
+          <div class="h2">shadcn/ui components to install</div>
+          <div class="callout amber">
+            <div class="callout-icon">📦</div>
+            <div class="callout-content">
+              <div class="callout-title">Install command</div>
+              <code
+                >npx shadcn@latest add button input form select dialog
+                dropdown-menu table sheet avatar badge calendar popover tooltip
+                skeleton toast command</code
+              >
+            </div>
+          </div>
+
+          <div class="h2">Custom component checklist</div>
+          <div class="check-grid">
+            <div class="check-block">
+              <div class="check-block-title">⏱ Timer</div>
+              <div class="check-item">
+                <span class="ci">□</span> TimerWidget (header)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> TimerDisplay (elapsed HH:MM:SS)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> ProjectSelector (combobox)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> StopTimerModal (confirm + notes)
+              </div>
+            </div>
+            <div class="check-block">
+              <div class="check-block-title">📋 Time Entries</div>
+              <div class="check-item">
+                <span class="ci">□</span> TimeEntryRow (table row)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> TimeEntryTable (paginated)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> ManualEntryForm (sheet)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> EditEntryForm (inline sheet)
+              </div>
+            </div>
+            <div class="check-block">
+              <div class="check-block-title">📁 Projects</div>
+              <div class="check-item">
+                <span class="ci">□</span> ProjectCard (grid view)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> ProjectForm (dialog)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> ProjectBudgetBar (progress)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> ColorPicker (swatches)
+              </div>
+            </div>
+            <div class="check-block">
+              <div class="check-block-title">📊 Reports</div>
+              <div class="check-item">
+                <span class="ci">□</span> WeeklyBarChart (recharts)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> StatCard (hours / revenue)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> DateRangePicker
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> ExportButton (CSV)
+              </div>
+            </div>
+            <div class="check-block">
+              <div class="check-block-title">🏗 Layout</div>
+              <div class="check-item"><span class="ci">□</span> AppSidebar</div>
+              <div class="check-item"><span class="ci">□</span> TopNav</div>
+              <div class="check-item">
+                <span class="ci">□</span> UserMenu (avatar dropdown)
+              </div>
+              <div class="check-item">
+                <span class="ci">□</span> WorkspaceSwitcher
+              </div>
+            </div>
+            <div class="check-block">
+              <div class="check-block-title">👥 Team</div>
+              <div class="check-item">
+                <span class="ci">□</span> MemberTable
+              </div>
+              <div class="check-item"><span class="ci">□</span> InviteForm</div>
+              <div class="check-item"><span class="ci">□</span> RoleBadge</div>
+              <div class="check-item">
+                <span class="ci">□</span> PendingInviteRow
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       11. 1-MONTH TIMELINE
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="timeline">
+          <div class="section-eyebrow">Document 11</div>
+          <div class="section-title">1-Month Sprint Timeline</div>
+          <div class="section-sub">
+            4-week delivery plan. Assumes 1–2 developers working full-time. Each
+            week ends with a working, deployable build.
+          </div>
+
+          <div class="callout red">
+            <div class="callout-icon">🚨</div>
+            <div class="callout-content">
+              <div class="callout-title">Hard deadline rule</div>
+              If Week 4 is at risk, cut P2 features (onboarding wizard, email
+              digest, dark mode) — NOT the core timer + auth + reports loop. A
+              working beta beats a polished unfinished app.
+            </div>
+          </div>
+
+          <div class="sprint-block">
+            <div class="sprint-header">
+              <div class="sprint-title">🏗 Week 1 — Foundation</div>
+              <div class="sprint-dates">Days 1–7</div>
+            </div>
+            <div class="sprint-goal">
+              <strong>Sprint goal:</strong> Project scaffolding, DB, auth flow,
+              and timer working end-to-end locally.
+            </div>
+            <div class="sprint-items">
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Next.js 15 project setup — App Router, TypeScript, Tailwind,
+                    shadcn/ui init
+                  </div>
+                  <div class="sprint-item-sub">Day 1 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    PostgreSQL PostgreSQL + Prisma ORM setup — schema migration
+                    for all core tables
+                  </div>
+                  <div class="sprint-item-sub">Day 1–2 · ~4h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    better-auth integration — email/password + Google OAuth,
+                    sessions, middleware
+                  </div>
+                  <div class="sprint-item-sub">Day 2–3 · ~6h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Login / Signup pages — shadcn/ui forms, Zod validation,
+                    error handling
+                  </div>
+                  <div class="sprint-item-sub">Day 3 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Dashboard shell — AppSidebar, TopNav, layout with route
+                    protection
+                  </div>
+                  <div class="sprint-item-sub">Day 4 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Timer API routes + Zustand store — start/stop persists to DB
+                  </div>
+                  <div class="sprint-item-sub">Day 5–6 · ~5h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    TimerWidget component — displays in TopNav, shows elapsed
+                    time, one-click UX
+                  </div>
+                  <div class="sprint-item-sub">Day 6–7 · ~4h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-green" style="flex-shrink: 0">P2</span>
+                <div>
+                  <div class="sprint-item-text">
+                    AWS or Vercel deployment + GitHub Actions CI pipeline
+                  </div>
+                  <div class="sprint-item-sub">Day 7 · ~2h</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sprint-block">
+            <div class="sprint-header">
+              <div class="sprint-title">⚙️ Week 2 — Core Features</div>
+              <div class="sprint-dates">Days 8–14</div>
+            </div>
+            <div class="sprint-goal">
+              <strong>Sprint goal:</strong> Projects CRUD, manual time entry,
+              time log view — user can fully log their workday.
+            </div>
+            <div class="sprint-items">
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Projects CRUD — create/edit/archive, hourly rate, budget,
+                    color — Server Actions + API
+                  </div>
+                  <div class="sprint-item-sub">Day 8–9 · ~6h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    ProjectCard + ProjectForm components with shadcn Dialog
+                  </div>
+                  <div class="sprint-item-sub">Day 9 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    ManualEntryForm (Sheet) — date, duration or start/end,
+                    project, notes, billable toggle
+                  </div>
+                  <div class="sprint-item-sub">Day 10 · ~4h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Timer stop modal — project confirm, description, billable
+                    flag before save
+                  </div>
+                  <div class="sprint-item-sub">Day 10–11 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    TimeEntryTable — list with date grouping, inline edit,
+                    delete confirm
+                  </div>
+                  <div class="sprint-item-sub">Day 11–12 · ~5h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    ProjectBudgetBar — visual progress, color change at 80% /
+                    100%
+                  </div>
+                  <div class="sprint-item-sub">Day 12 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Dashboard summary cards — hours today, this week, billable
+                    %, active projects
+                  </div>
+                  <div class="sprint-item-sub">Day 13–14 · ~4h</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sprint-block">
+            <div class="sprint-header">
+              <div class="sprint-title">📊 Week 3 — Reports, Team & Polish</div>
+              <div class="sprint-dates">Days 15–21</div>
+            </div>
+            <div class="sprint-goal">
+              <strong>Sprint goal:</strong> Reports with charts + CSV export,
+              workspace team management, email flows.
+            </div>
+            <div class="sprint-items">
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Reports page — WeeklyBarChart (recharts), StatCards, date
+                    range filter
+                  </div>
+                  <div class="sprint-item-sub">Day 15–16 · ~5h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Reports API — aggregate query by date range, project, member
+                    in Prisma
+                  </div>
+                  <div class="sprint-item-sub">Day 16–17 · ~4h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    CSV export — generate and stream from Route Handler
+                  </div>
+                  <div class="sprint-item-sub">Day 17 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Workspace settings — name, plan display, member table
+                  </div>
+                  <div class="sprint-item-sub">Day 18 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Team invite flow — email invite via Resend (react-email
+                    template), token-based accept
+                  </div>
+                  <div class="sprint-item-sub">Day 18–19 · ~4h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Admin/member role enforcement — middleware + UI conditional
+                    rendering
+                  </div>
+                  <div class="sprint-item-sub">Day 19 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-green" style="flex-shrink: 0">P2</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Budget alert email — triggered when project hits 80% / 100%
+                    via Resend
+                  </div>
+                  <div class="sprint-item-sub">Day 20 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-green" style="flex-shrink: 0">P2</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Dark mode toggle — Tailwind dark variant, next-themes
+                  </div>
+                  <div class="sprint-item-sub">Day 21 · ~2h</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sprint-block">
+            <div class="sprint-header">
+              <div class="sprint-title">
+                🚀 Week 4 — QA, Onboarding & Launch
+              </div>
+              <div class="sprint-dates">Days 22–30</div>
+            </div>
+            <div class="sprint-goal">
+              <strong>Sprint goal:</strong> Bug fixes, onboarding flow,
+              Playwright E2E tests, beta deployment, launch prep.
+            </div>
+            <div class="sprint-items">
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Onboarding wizard — create workspace → project → first time
+                    entry (guided steps)
+                  </div>
+                  <div class="sprint-item-sub">Day 22–23 · ~4h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Empty states — projects, time log, reports (with CTAs to get
+                    started)
+                  </div>
+                  <div class="sprint-item-sub">Day 23 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Playwright E2E tests — auth flow, timer start/stop, manual
+                    entry, project create
+                  </div>
+                  <div class="sprint-item-sub">Day 24–25 · ~5h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-amber" style="flex-shrink: 0">P1</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Vitest unit tests — duration calculation, report
+                    aggregation, Zod schemas
+                  </div>
+                  <div class="sprint-item-sub">Day 25 · ~3h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-red" style="flex-shrink: 0">P0</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Bug bash — full product walkthrough against all acceptance
+                    criteria
+                  </div>
+                  <div class="sprint-item-sub">Day 26–27 · full day</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-green" style="flex-shrink: 0">P2</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Performance audit — Core Web Vitals, image optimisation,
+                    bundle size check
+                  </div>
+                  <div class="sprint-item-sub">Day 27 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-green" style="flex-shrink: 0">P2</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Responsive / mobile QA — all screens tested at 375px + 768px
+                    breakpoints
+                  </div>
+                  <div class="sprint-item-sub">Day 28 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-blue" style="flex-shrink: 0">🚀</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Production deployment to Vercel + PostgreSQL prod DB · Seed
+                    demo workspace
+                  </div>
+                  <div class="sprint-item-sub">Day 29 · ~2h</div>
+                </div>
+              </div>
+              <div class="sprint-item">
+                <span class="tag tag-blue" style="flex-shrink: 0">🚀</span>
+                <div>
+                  <div class="sprint-item-text">
+                    Beta launch — share with first users, set up feedback
+                    channel (Notion form / Tally)
+                  </div>
+                  <div class="sprint-item-sub">Day 30</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       12. RISKS & MITIGATIONS
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="risks">
+          <div class="section-eyebrow">Document 12</div>
+          <div class="section-title">Risks & Mitigations</div>
+          <div class="section-sub">
+            Known risks for the 1-month build and how to handle them.
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Risk</th>
+                <th>Likelihood</th>
+                <th>Impact</th>
+                <th>Mitigation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="risk-row-high">
+                <td>Scope creep extends past deadline</td>
+                <td><span class="tag tag-red">High</span></td>
+                <td><span class="tag tag-red">High</span></td>
+                <td>
+                  Hard freeze on P0+P1 after Week 2. All new requests go to
+                  post-MVP backlog.
+                </td>
+              </tr>
+              <tr class="risk-row-mid">
+                <td>better-auth integration issues</td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td>
+                  Spike Day 1. Fallback: use NextAuth v5 if blocking issues
+                  arise in first 4h.
+                </td>
+              </tr>
+              <tr class="risk-row-mid">
+                <td>Timer state sync bugs (multi-tab)</td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td>
+                  Source of truth is server DB, not localStorage. Poll every 30s
+                  to reconcile.
+                </td>
+              </tr>
+              <tr class="risk-row-low">
+                <td>PostgreSQL cold start latency</td>
+                <td><span class="tag tag-green">Low</span></td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td>
+                  Use HTTP connection pooling (PostgreSQL/serverless). Warm-up
+                  route on /api/healthz.
+                </td>
+              </tr>
+              <tr class="risk-row-low">
+                <td>Email deliverability (Resend)</td>
+                <td><span class="tag tag-green">Low</span></td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td>
+                  Verify sending domain early. Test SPF/DKIM in Week 1.
+                  Non-blocking in MVP.
+                </td>
+              </tr>
+              <tr class="risk-row-mid">
+                <td>Prisma migration conflicts</td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td><span class="tag tag-green">Low</span></td>
+                <td>
+                  Use PostgreSQL branching for dev. Never run migrations
+                  manually — always Prisma-kit.
+                </td>
+              </tr>
+              <tr class="risk-row-low">
+                <td>Solo dev burnout / bottleneck</td>
+                <td><span class="tag tag-amber">Medium</span></td>
+                <td><span class="tag tag-red">High</span></td>
+                <td>
+                  Time-box each feature. If stuck >2h, skip to next task and
+                  return. Use AI pair programming.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ─────────────────────────────────────────
+       13. DEFINITION OF DONE
+  ───────────────────────────────────────── -->
+        <div class="divider"></div>
+        <div class="doc-section" id="dod">
+          <div class="section-eyebrow">Document 13</div>
+          <div class="section-title">Definition of Done</div>
+          <div class="section-sub">
+            A user story / feature is not done until all of these criteria are
+            met.
+          </div>
+
+          <div class="callout green">
+            <div class="callout-icon">✅</div>
+            <div class="callout-content">
+              <div class="callout-title">
+                Standard DoD — applies to every story
+              </div>
+              Code reviewed (or self-reviewed against checklist) · TypeScript
+              compiles with no errors · Zod validation covers all inputs · Unit
+              tested if it contains business logic · Passes QA in staging ·
+              Verified against all acceptance criteria · Responsive at 375px and
+              1280px
+            </div>
+          </div>
+
+          <div class="h2">Pre-launch checklist</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Check</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Auth</td>
+                <td>
+                  Email signup, Google OAuth, and password reset all work
+                  end-to-end
+                </td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Timer</td>
+                <td>Start/stop persists across page reload and new tab</td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Manual entry</td>
+                <td>Backdating up to 90 days, all validation errors shown</td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Projects</td>
+                <td>CRUD works, budget alerts trigger correctly at 80%/100%</td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Reports</td>
+                <td>Date range filter returns correct aggregated totals</td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>CSV export</td>
+                <td>Downloaded file contains correct columns and data</td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Team invite</td>
+                <td>
+                  Invite email received, accepted user joins workspace with
+                  correct role
+                </td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Security</td>
+                <td>Members cannot access other workspaces' data via API</td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Performance</td>
+                <td>
+                  LCP &lt; 2.5s, no CLS, dashboard loads &lt; 1.5s on throttled
+                  4G
+                </td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>E2E tests</td>
+                <td>
+                  Playwright suite passes in CI for auth + timer critical path
+                </td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Deployment</td>
+                <td>
+                  Production Vercel deploy successful, env vars configured
+                </td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+              <tr>
+                <td>Monitoring</td>
+                <td>
+                  Error tracking (Sentry or Vercel monitoring) active on prod
+                </td>
+                <td><span class="tag tag-gray">Pending</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /main -->
+    </div>
+    <!-- /page-wrap -->
+
+    <script>
+      document.querySelectorAll(".toggle-head").forEach((h) => {
+        h.addEventListener("click", () =>
+          h.parentElement.classList.toggle("open"),
+        );
+      });
+      document.querySelectorAll(".sb-item").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          document
+            .querySelectorAll(".sb-item")
+            .forEach((l) => l.classList.remove("active"));
+          this.classList.add("active");
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target)
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    </script>
+  </body>
+</html>

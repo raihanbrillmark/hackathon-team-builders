@@ -7,10 +7,6 @@ function App() {
   });
   uEA(() => { try { localStorage.setItem('trakio.screen', screen); } catch {} }, [screen]);
 
-  // Global overlay state — any screen can trigger these
-  const [openTaskId, setOpenTaskId] = uSA(null);
-  const [activeProjectId, setActiveProjectId] = uSA(null);
-
   const [role, setRole] = uSA('pm');
   const [tweaksOpen, setTweaksOpen] = uSA(false);
   const [tweaks, setTweaks] = uSA(() => ({ ...TWEAK_DEFAULTS }));
@@ -30,12 +26,6 @@ function App() {
     return () => window.removeEventListener('message', onMsg);
   }, []);
 
-  // Expose global helpers so any screen can open things
-  uEA(() => {
-    window.openTask = (id) => setOpenTaskId(id);
-    window.openProject = (id) => { setScreen('projects'); setActiveProjectId(id); };
-  }, []);
-
   const sidebarCollapsed = tweaks.sidebar === 'collapsed';
   const sidebarHidden = tweaks.sidebar === 'hidden';
 
@@ -53,41 +43,15 @@ function App() {
     settings:      { comp: SettingsScreen,         crumbs:['Settings'] },
   };
 
-  // If we're on projects and a project is selected, show the overview instead
-  let Current, crumbs;
-  if (screen === 'projects' && activeProjectId) {
-    const p = PROJECTS.find(x => x.id === activeProjectId);
-    Current = () => (
-      <ProjectOverviewScreen
-        projectId={activeProjectId}
-        onBack={() => setActiveProjectId(null)}
-        onOpenTask={(id) => setOpenTaskId(id)}
-      />
-    );
-    crumbs = ['Projects', p ? p.name : '—'];
-  } else {
-    const s = screens[screen] || screens.projects;
-    const Comp = s.comp;
-    // Pass onOpenProject / onOpenTask via render wrapper
-    Current = () => <Comp
-      onOpenProject={(p) => setActiveProjectId(p.id || p)}
-      onOpenTask={(id) => setOpenTaskId(id)}
-    />;
-    crumbs = s.crumbs;
-  }
-
-  // When switching main screens, clear project drill-in
-  const switchScreen = (s) => {
-    setScreen(s);
-    if (s !== 'projects') setActiveProjectId(null);
-  };
+  const Current = screens[screen]?.comp || ProjectsScreen;
+  const crumbs = screens[screen]?.crumbs || ['Projects'];
 
   return (
     <div style={{ display:'flex', height:'100vh', overflow:'hidden' }} data-screen-label={`01 ${crumbs.join(' / ')}`}>
       {!sidebarHidden && (
         <Sidebar
           current={screen}
-          setScreen={switchScreen}
+          setScreen={setScreen}
           collapsed={sidebarCollapsed}
           role={role}
           setRole={setRole}
@@ -108,7 +72,6 @@ function App() {
         </div>
       </main>
       <TweaksPanel open={tweaksOpen} onClose={()=>setTweaksOpen(false)} tweaks={tweaks} setTweaks={setTweaks}/>
-      {openTaskId && <TaskDrawer taskId={openTaskId} onClose={() => setOpenTaskId(null)}/>}
     </div>
   );
 }

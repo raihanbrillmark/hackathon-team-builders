@@ -200,9 +200,9 @@ function MyTasksScreen() {
                 const u = TEAM.find(x=>x.id===t.assignee);
                 const over = t.actualLOE > t.estLOE;
                 return (
-                  <tr key={t.id} onClick={() => window.openTask && window.openTask(t.id)} style={{ cursor:'pointer' }}>
+                  <tr key={t.id}>
                     <td style={{ paddingLeft:16 }}>
-                      <button onClick={(e)=>e.stopPropagation()} style={{
+                      <button style={{
                         width:14, height:14, borderRadius:'50%', border:`1.5px solid ${ts.dot}`,
                         background: t.status==='done' ? ts.dot : 'transparent',
                       }}/>
@@ -257,7 +257,7 @@ function MyTasksScreen() {
                     const p = PROJECTS.find(x=>x.id===t.project);
                     const u = TEAM.find(x=>x.id===t.assignee);
                     return (
-                      <div key={t.id} className="card" onClick={() => window.openTask && window.openTask(t.id)} style={{ padding:10, cursor:'pointer' }}>
+                      <div key={t.id} className="card" style={{ padding:10, cursor:'grab' }}>
                         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
                           <span className="code-badge" style={{ width:22, height:22, fontSize:8 }}>{p.code}</span>
                           <span className={`chip chip-${t.priority==='high'?'rust':t.priority==='med'?'ochre':'ink'}`} style={{ fontSize:10, height:16 }}>{t.priority}</span>
